@@ -1,0 +1,74 @@
+Ref: https://www.youtube.com/watch?v=RS1IACnZLy4&list=PLWz5rJ2EKKc-OKKThYtOZGgsNQAofjFY-&index=2
+
+Testing Fragments
+- FragmentScenario (built on top of ActivityScenario)
+
+FragmentFactory -> one way of instantiating Fragments
+-> supporting constructor injection
+
+
+private class MyFactory(): FragmentFactory() {
+    override fun instantiate(
+        classLoader: ClassLoader,
+        className: String
+        ) = when(className) {
+            MyFragment::class.java.name -> MyFragment()
+            else -> super.instantiate(classLoader, className)
+        }
+}
+
+
+// and call this in activity before 'super.onCreate(savedInstanceState)'
+supportFragmentManager.fragmentFactory = MyFactory()
+
+
+supportFragmentManager.commit {
+    add<MyFragment>(R.id.container) // className of Fragment , this is delegated to Factory
+}
+
+
+For testing purpose, you can call like this
+val scenario =
+    launchFragmentInContainer<MyFragment>(factory = MockFactory())
+
+
+FragmentContainerView, use it instead of FrameLayout
+Replaces the <fragment> tag
+
+
+One way to handle Back
+
+OnBackPressedDispatcher
+val dispatcher by lazy { requireActivity().onBackPressedDispatcher }
+lateinit var callback: OnBackPressedCallback
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    callback = dispatcher.addCallback(this) {
+        showConfirmDialog()
+    }
+}
+
+private fun onConfirm() {
+    callback.enabled = false
+    dispatcher.onBackPressed()
+}
+
+
+Leaning into Arch Components
+
+ViewModels
+
+// Make it easy to get an instance of your viewModel
+val viewModel : MyViewModel by viewModels()
+val navGraphViewModel : MyViewModel by navGraphViewModels(R.id.main)
+val activityViewModel : MyViewModel by activityViewModels()
+
+
+LifeCycle
+
+//Only let onResume() be called on the current Fragment
+class MyAdapter : FragmentPagerAdapter(BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
+
+
+There are two lifecycles for Fragment & FragmentView
