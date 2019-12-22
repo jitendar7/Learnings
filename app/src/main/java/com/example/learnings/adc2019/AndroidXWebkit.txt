@@ -1,3 +1,17 @@
 Ref: https://www.youtube.com/watch?v=7Wq8Lwt_Cbg&list=PLWz5rJ2EKKc-OKKThYtOZGgsNQAofjFY-&index=3
 
+https://developer.android.com/reference/androidx/webkit/package-summary
 androidx.webkit
+
+DarkMode
+ (3 strategies to make content dark)
+ - User Agent only
+ - Web Theme only
+ - Prefer web theme over user agent
+
+
+Proxy Controller
+Override Android proxy settings
+
+WebView Asset Loader : helper class to load local assets over http(s)://
+
