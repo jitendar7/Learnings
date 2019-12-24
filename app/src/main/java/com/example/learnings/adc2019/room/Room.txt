@@ -1,0 +1,59 @@
+Ref: https://www.youtube.com/watch?v=_aJsh6P00c0&list=PLWz5rJ2EKKc-OKKThYtOZGgsNQAofjFY-&index=5
+
+
+Room 2.2
+
+- addition of Flows
+( kotlin, Intermediate operators 'transform' the stream ( eg. map, filter ) )
+( kotlin, Terminal operators 'consume' the data ( eg.  collect, single, toList ) )
+
+
+
+@Dao
+interface DogDao {
+    @Query("SELECT * FROM dogs")
+    fun getDogs(): Flow<List<Dog>>
+}
+
+Room + Flow + Lifecycle-ktx
+
+class DoggyFragment: Fragment {
+    init {
+        lifecycleScope.launchWhenStarted {
+            dogDao.getDogs().collect { dogs ->
+                doggyAdapter.setData(dogs)
+            }
+        }
+    }
+}
+
+
+Pre-packaged database
+
+(create from file)
+Room.databaseBuilder(appContext, TestDatabase.class, "Sample.db")
+    .createFromFile(File("mypath")) => New
+    .build()
+
+(create from assets)
+Room.databaseBuilder(appContext, TestDatabase.class, "Sample.db")
+    .createFromAsset("database/myapp.db")   => New
+    .build()
+
+
+Relations:
+(increase support for 1-1,1-many,many-many)
+
+can include Schema DEFAULT values
+
+gradle incremental annotation processor
+
+..
+ javaCompileOptions {
+    annotationProcessorOptions {
+        arguments = [
+            "room.incremental": "true"]
+    }
+ }
+
+ Expanded projections
