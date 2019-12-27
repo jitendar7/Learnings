@@ -1,0 +1,32 @@
+Reference for picture: https://en.wikipedia.org/wiki/Bridge_pattern
+
+Intent:
+Decouple an abstraction from its implementation so that the two can vary independently
+
+Object structural
+
+Participants
+
+Abstraction: defines an abstraction interface , keeps reference to an object of type Implementor
+RefmedAbstraction: extends interface defined by Abstraction
+Implementor: interface, provides only primitive operations, and Abstraction defines higher-level operations based on these primitives
+ConcreteImplementor: implements Implementor interface
+
+Decoupling, encourages layering, high-level part of a system only has to know about Abstraction and
+Implementor
+
+Improved extensibility
+Hiding implementation details from clients
+
+
+The Adapter pattern is geared toward making unrelated classes work together.
+It is usually applied to systems after they're designed.
+Bridge used upfront in a design to let abstractions and implementations vary
+independently
+
+
+Abstract factory can create and configure a particular bridge
+
+
+
+
