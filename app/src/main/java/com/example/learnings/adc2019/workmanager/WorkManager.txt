@@ -1,4 +1,8 @@
 Ref: https://www.youtube.com/watch?v=Bz0z694SrEE&list=PLWz5rJ2EKKc-OKKThYtOZGgsNQAofjFY-&index=9
+Ref: https://developer.android.com/topic/libraries/architecture/workmanager
+
+Android X migration
+https://medium.com/androiddevelopers/cross-stitching-plaid-and-androidx-7603a192348e
 
 Requests => Stores in WorkManager Database
 If 23+, send the request

@@ -1,0 +1,84 @@
+Ref: https://www.youtube.com/watch?v=B8ppnjGPAGE&list=PLWz5rJ2EKKc-OKKThYtOZGgsNQAofjFY-&index=14
+
+Launching coroutines
+(Structured concurrency)
+
+When we are in viewModel, there is a 'viewModelScope'
+
+class MainActivityViewModel: ViewModel {
+    init{
+        viewModelScope.launch{      // runs in MainDispatcher by default
+            //Start
+
+        }
+    }
+}
+
+in an activity/fragment, there is 'lifecycleScope'
+
+override fun onCreate(state: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    lifecycleScope.launch{
+        //Run
+    }
+
+    lifecycleScope.launchWhenResumed {
+        // executes the suspend function only when the lifecycle is in desired state or greater
+        // Run
+    }
+
+}
+
+in an application, use applicationScope / workmanager
+
+
+ViewModel + LiveData
+
+val result: LiveData<String> = _result
+
+viewModelScope.launch {
+    val computationResult = doComputation()
+    _result.value = computationList     // notice it is not a post value, bcz this run on MainDispatcher by default
+}
+
+
+Same thing can be written in a different way as below
+liveData coroutine builder ( since lifecycle 2.0 - liveData )
+
+val result = liveData {
+    // will give a coroutine block which is a scope for live data, starts executing when the live data is observed
+    // and cancelled when live data is not used anymore
+    emit(doComputation())
+}
+
+
+for switchMap functionality
+private val itemId = MutableLiveData<String>()
+val result = itemId.switchMap {
+    liveData { emit(fetchItem(it)) }
+}
+
+
+liveData(Dispatchers.IO)    => also receives a coroutine context
+{
+    emit(LOADING_STRING)
+    emitSource(dataSource.fetchWeather()) => emits live data
+}
+
+//One-Shot operation vs observers
+
+//Repository patterns,
+use flows , suspend functions
+
+Retrofits support coroutines from 2.6.0,
+Room supports coroutines from 2.1.0,
+
+
+You may not need LiveData anymore
+
+lifecycleScope.launchWhenStarted{
+    viewModel.flowToFlow.collect {
+        binding.currentWeather.text = it
+    }
+}
