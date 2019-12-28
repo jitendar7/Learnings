@@ -1,0 +1,17 @@
+Ref: https://www.youtube.com/watch?v=49lU1NtYE5g&list=PLWz5rJ2EKKc-OKKThYtOZGgsNQAofjFY-&index=6
+
+New Capabilities,
+- Tap to focus
+- Zoom control
+- Flashability,
+..
+Enhanced Stability,
+- Expanded end-to-end testing
+
+Extensions
+- HDR mode, expanding footprints
+
+Usage based on usecase
+Ref: https://medium.com/androiddevelopers/core-principles-behind-camerax-jetpack-library-8e8380f7604c
+Ref: https://developer.android.com/training/camerax
+

@@ -1,0 +1,54 @@
+Ref: https://www.youtube.com/watch?v=Bz0z694SrEE&list=PLWz5rJ2EKKc-OKKThYtOZGgsNQAofjFY-&index=9
+
+Requests => Stores in WorkManager Database
+If 23+, send the request
+If 22-, has google play services & work-gcm ? GCMNetworkManager : AlarmManager
+
+If the app is forced stop, all the work requests are stopped gracefully
+
+How to avoid running duplicate work requests again & again
+
+in activity onCreate()
+WorkManager.getInstance(this).enqueUniquePeriodicWork(
+    "test_work",
+    ExistingPeriodicWorkPolicy.KEEP,
+    PeriodicWorkRequestBuilder<TestWorker>(duration).build())
+
+Two types of Initialization:
+- Automatic
+- OnDemand
+
+gets the configuration ( implements Configuration.Provider )
+
+How to test Workers:
+
+extends CoroutineWorker
+
+runBlocking{
+val worker = TestListenableWorkerBuilder<TestWorker>(context)
+            .setInputData(workDataOf("key" to 10))
+            .setRunAttemptCount(2)
+            .build()
+
+val result = worker.startWork().await()
+assertThat(result).isEqualTo(Result.success())
+}
+
+extends Worker ( executed on background thread )
+
+runBlocking{
+val executor = Executors.newSingleThreadExecutor()
+val worker = TestWorkerBuilder<TestWorker>(context, executor)
+             .setInputData(workDataOf("key" to 10L)
+             .setRunAttemptCount(2)
+             .build()
+
+val result = worker.startWork().await()
+assertThat(result).isEqualTo(Result.success))
+
+}
+
+- Testing with constraints & delays
+
+
+
