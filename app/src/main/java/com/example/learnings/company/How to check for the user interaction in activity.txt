@@ -1,0 +1,9 @@
+In Activity/Fragment, we need to override the below method and implement the logic of
+countdown timer CountDownTimer to reset the count down when the user touches the screen
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        //TODO
+    }
+
