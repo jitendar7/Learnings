@@ -1,0 +1,46 @@
+Ref: https://www.youtube.com/watch?v=uQ_yK8kRCaA&list=PLWz5rJ2EKKc_xXXubDti2eRnIKU0p7wHd&index=11
+
+R8 shrinking
+- Tree Shaking
+    Removing unused code & structure
+     - static analysis of code, remove unreachable code, remove uninstantiated types
+- Optimization
+    Optimize code for size
+     - dead code removal, selective inlining, unused argument removal, class merging
+- Identifier renaming (obfuscation)
+    Using short names, squash package namespace
+- Reduce debug information
+    Canonicalize debug info, compress line number information
+
+R8 starts with known entry points of program
+
+Activities,
+Services,
+Content Providers,
+Broadcast Receivers
+
+
+-keep class com.example.JavaHelloWorld {
+    public static void main(java.lang.String());
+}
+
+The aapt2 tool will do the job of handling these entry points
+( it will generate keep rule for entry point )
+
+app/build.gradle    (other optimization rules provided by android platform other than entry points)
+proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+
+
+R8 doesn't recognize the reflection entry point by tracing the code
+Add keep rule in 'proguard-rules.pro'
+
+Class Inlining - optimization technique
+Removes classes that are only used locally
+- Builders
+- Lambdas
+
+Steps:
+Escape Analysis,
+Method Inlining,
+Field access removal,
+instance removal
