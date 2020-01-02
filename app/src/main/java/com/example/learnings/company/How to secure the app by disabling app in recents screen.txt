@@ -1,0 +1,10 @@
+Ref: https://stackoverflow.com/questions/58284352/how-to-make-screen-blank-in-recent-apps-but-allow-screenshots
+
+Use the flag
+FLAG_SECURE in Application.ActivityLifecycleCallbacks
+
+in onPause
+    activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+
+in onResume
+    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
