@@ -1,0 +1,119 @@
+Ref:  https://www.youtube.com/watch?v=LZFzRXCO95o&list=PLWz5rJ2EKKc_xXXubDti2eRnIKU0p7wHd&index=9
+
+Nullability -> JetBrains annotation
+@NotNull
+
+
+Property Prefixes -> getters & setters
+
+Java Bean style
+get: no argument method, starting with get
+set: single argument method, starting with set
+is: and the getter starts with is, and the name of the setter starts with set
+
+Keywords
+
+``
+
+Any
+
+Operator overloading
+
+SAM ( Single Abstract Method)
+Functional interface with single method
+SAM conversion works only for Java interop
+
+In Kotlin,
+interface MyListener {
+    fun onCheckedChanged(radioGroup: RadioGroup, resId: Int)
+}
+
+fun setMyListener(listener: MyListener){
+...
+}
+
+setMyListener{radioGroup, resId -> ..} => compile time error
+
+setMyListener(object: MyListener {
+    override fun onCheckedChanged(radioGroup: RadioGroup, resId: Int) { .. }
+})
+
+( kotlin supports functions as first class citizen , so SAM conversion is not needed)
+
+
+If we change the it to this in kotlin
+fun setMyListener(listener: (RadioGroup, Int) -> Unit) {...}
+
+then we can use the below
+setMyListener {radioGroup, resId -> ... }   //Correct
+
+
+If the interface is defined in Java, then still SAM conversion is not possible in kotlin
+
+
+Calling Kotlin from Java language:
+----------------------------------
+
+In Kotlin file
+
+@JvmMultifileClass
+@file:JvmName("Utils")
+changes the generated class name
+
+
+In data classes, if we want to expose the field directly instead of getters & setters
+then use @JvmField before the variable
+
+data class Message{
+    @JvmField val user: User,
+    @JvmField val text: String,
+    @JvmField val received: Date
+}
+
+lateinit are automatically exposed as fields
+so as Constants
+
+@get:JvmName("likesPink")
+@set:JvmName("changeName")
+
+
+@JvmStatic,
+
+class MyService {
+  companion object{
+    @JvmStatic
+    fun schedule(context: Context){
+        ...
+    }
+  }
+}
+
+MyService.schedule(this);
+instead of
+MyService.Companion.schedule(this);
+
+
+Kotlin has default parameters in methods
+
+@JvmOverloads
+@JvmName("resizeBitmap")
+fun Bitmap.resize(
+    scale: Float,
+    interpolation: Interpolation = Interpolation.None): Bitmap{
+    ...
+}
+
+Utils.resizeBitmap(bitmap, 1.5f)
+
+
+Kotlin doesn't have checked exception
+
+class ChatStream{
+    @Throws(IOException::class)
+    fun sendMessage(message: Message) {
+        /* ... */
+    }
+}
+
+Feature leak prevention
+Intrinsics
