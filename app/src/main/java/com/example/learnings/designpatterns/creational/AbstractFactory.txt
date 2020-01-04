@@ -1,0 +1,21 @@
+Ref: https://refactoring.guru/design-patterns/abstract-factory
+
+Intent:
+Provides an interface for creating families of related or dependent objects
+without specifying their concrete classes
+
+eg: ToolKit for Windows, Mac
+
+
+Use it when the system should be independent of how its products are created,
+composed, and represented
+
+A system should be configured with one  of multiple families of products
+
+
+Supporting new kinds of products is difficult, creating products
+To solve this problem, for creating many product families, the concrete factory can be implemented
+using the Prototype pattern.
+
+A concrete factory is often singleton
+
