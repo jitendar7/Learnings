@@ -1,0 +1,34 @@
+Ref: https://refactoring.guru/design-patterns/builder
+
+Intent:
+Seperate construction of a complex object from its representation so that same construction
+process can create different representations.
+
+Structure:
+
+Builder ( TextConvertor )
+- specifies an abstract interface for creating parts of a Product object
+
+
+ConcreteBuilder (ASCIIConverter, TeXConverter, TextWidgetConverter)
+- constructs and assembles parts of the product by implementing the builder interface
+- defines & keeps track of the representation it creates
+- provides an interface for retrieving the product ( GetASCIIText, Get-Text Widget)
+
+Director ( RTFReader )
+- constructs an object using the Builder interface
+
+Product ( ASCIIText, TeXText, TextWidget )
+- represents the complex object under construction.
+ConcreteBuilder builds the product's internal representation and defines the process by which its assembled
+
+
+Collaboration:
+1. Client creates Director object and configures it with the desired Builder object
+2. Director notifies the builder whenever a part of the product should be built
+3. Builder handles request from the director and adds the parts to the product
+4. The client retrieves the product from the builder.
+
+
+Abstract Factory emphasis is on families of product objects (either simple or complex),
+Builder focuses on constructing a complex object step by step
