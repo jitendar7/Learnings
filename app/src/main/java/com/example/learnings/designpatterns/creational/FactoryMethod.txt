@@ -1,0 +1,22 @@
+Ref: https://refactoring.guru/design-patterns/factory-method
+
+Intent:
+Define an interface for creating an object, but let subclasses decide which class to instantiate.
+'Factory Method' lets a class defer instantiation to subclasses.
+
+Participants:
+
+Product(Document)
+ConcreteProduct(MyDocument)
+ - implements Product interface
+
+Creator (Application)
+- declares the factory method, which returns the interface Product,
+  it can also define a default ConcreteProduct object
+- may call the factory method to create a Product object
+
+ConcreteCreator (MyApplication)
+- overrides the factory method to return an instance of a ConcreteProduct
+
+
+Factory methods are usually called within Template Methods.
