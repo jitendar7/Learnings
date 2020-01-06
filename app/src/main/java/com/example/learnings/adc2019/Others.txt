@@ -1,2 +1,37 @@
 Android TV Best Practices for engaging apps
 Ref:  https://www.youtube.com/watch?v=FdxQgtoLc4U&list=PLWz5rJ2EKKc_xXXubDti2eRnIKU0p7wHd&index=18
+
+
+Guesture Edge to Edge Navigation
+https://www.youtube.com/watch?v=moYIjqFMi0o&list=PLWz5rJ2EKKc_xXXubDti2eRnIKU0p7wHd&index=19
+
+1. Change system bar colors
+
+<style name="Theme.MyApp" parent="">
+    <item name="android:navigationBarColor">
+        @android:color/transparent
+    </item>
+</style>
+
+2. Request to be laid out fullscreen
+
+view.systemUiVisibility =
+
+      View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+
+      View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+
+      View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+
+
+3. Avoid overlaps with System UI
+(Insets)
+
+ViewCompat.setonApplyWindowInsetsListener(bottomNav) { v, insets ->
+    v.updatePadding(
+        bottom = insets.systemWindowInsets.bottom
+    )
+}
+
+goo.gle/gesture-nav
+Window Insets blog by Chris banes
