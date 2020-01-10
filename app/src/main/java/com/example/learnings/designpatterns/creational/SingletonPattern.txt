@@ -1,0 +1,5 @@
+Ref: https://refactoring.guru/design-patterns/singleton
+
+Intent:
+Creates single instance
+
