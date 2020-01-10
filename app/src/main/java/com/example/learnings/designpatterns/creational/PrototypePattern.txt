@@ -1,7 +1,7 @@
 Ref: https://refactoring.guru/design-patterns/prototype
 
 Intent:
-Specify the kinds of objects to create using a prototype instance, and create new new objects
+Specify the kinds of objects to create using a prototype instance, and create new objects
 by copying the prototype
 
 Participants:
