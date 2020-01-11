@@ -8,7 +8,7 @@ Object structural
 Participants
 
 Abstraction: defines an abstraction interface , keeps reference to an object of type Implementor
-RefmedAbstraction: extends interface defined by Abstraction
+RefinedAbstraction: extends interface defined by Abstraction
 Implementor: interface, provides only primitive operations, and Abstraction defines higher-level operations based on these primitives
 ConcreteImplementor: implements Implementor interface
 

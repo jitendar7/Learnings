@@ -3,6 +3,8 @@ Reference for Pic: https://en.wikipedia.org/wiki/Adapter_pattern
 Intent:
 Adapter converts from one interface to another interface
 
+Also called wrapper
+
 Object Adapter -
 relies on object composition
 
@@ -18,5 +20,4 @@ Adaptee - existing interface that needs adapting
 
 Adapter is meant to change the interface of an existing object
 Decorator enhances another object without changing its interface. This is more transparent to the application than an adapter is
-Proxy, defines a representative or surrogate for another object & doesnot change its interface
-
+Proxy, defines a representative or surrogate for another object & does not change its interface
