@@ -1,0 +1,12 @@
+Ref: https://www.youtube.com/watch?v=Hyt7LR5mXLc&list=PLWz5rJ2EKKc_xXXubDti2eRnIKU0p7wHd&index=24
+
+AndroidX is the package name within the Jetpack
+1. Update support library to 28, for smooth migration of AndroidX
+2. Enable Jetifier, helps in migrating your third-party dependencies to use AndroidX
+   android.useAndroidX=true
+   android.enableJetifier=true
+3. Update dependencies ( 3rd party dependencies may need updates )
+4. Migrate using AndroidStudio
+( or AndroidX migration script )
+
+- check for Proguard & Build scripts
