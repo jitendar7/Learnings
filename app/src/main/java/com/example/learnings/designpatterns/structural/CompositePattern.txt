@@ -1,0 +1,27 @@
+Ref: https://refactoring.guru/design-patterns/composite
+
+Intent:
+Compose into tree structures to represent part-whole hierarchies
+
+Participants:
+
+Composite (Graphic)
+ - interface for objects in the composition
+ - implements default behavior for the interface common to all classes
+
+Leaf (Rectangle, Line, Text , etc.. )
+ - represents leaf objects in the composition
+ - defines behavior for primitive objects in the composition
+
+Composite (Picture)
+ - defines behavior for components having children
+ - stores child components
+ - implement child related operations in the component interface
+
+Client
+ - manipulates objects in the composition through Component interface
+
+Decorator is often used with Composite,
+Decorators will have to support Component interface
+
+Iterator can be used to traverse composites
