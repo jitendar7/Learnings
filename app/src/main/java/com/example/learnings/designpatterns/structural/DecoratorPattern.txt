@@ -1,0 +1,23 @@
+Ref: https://refactoring.guru/design-patterns/decorator
+
+Intent:
+Add additional responsibility to an object dynamically.
+These provide a flexible alternative to subclassing for extending functionality
+
+Example: Notifications - sms/email/slack , Encryption/Zip/PlainText, BufferedInputStream,..
+
+Participants:
+
+- Component
+  defines the interface for objects that can have responsiblities added to them dynamically
+
+- ConcreteComponent
+  defines an object to which additional responsibilities can be attached
+
+- Decorator
+  maintains a reference to a Component object and defines an interface that conforms to Component's
+  interface
+
+- ConcreteDecorator
+  adds responsibilities to the component
+
