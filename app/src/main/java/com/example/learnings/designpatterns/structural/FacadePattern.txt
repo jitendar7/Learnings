@@ -1,0 +1,15 @@
+Ref: https://en.wikipedia.org/wiki/Facade_pattern
+
+Intent:
+Provide a unified interface to a set of interfaces in a subsystem.
+
+
+Participants:
+Facade (Compiler)
+ -  knows which subsystem classes are responsible for a request
+ -  delegates client requests to appropriate subsystem objects
+
+Subsystem classes (Scanner, Parser, ProgramNode, etc..)
+ - implement subsystem functionality
+ - handle work assigned by the Facade object
+
