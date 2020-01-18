@@ -1,0 +1,20 @@
+Ref: https://www.youtube.com/watch?v=W3mwSnF1n50&list=PLWz5rJ2EKKc_xXXubDti2eRnIKU0p7wHd&index=32
+
+androidx.security:security-crypto:1.0.0-alpha01
+
+for encryption on disk
+for Android 6.0+
+
+Key Generation ( with jetpack security & android keystore)
+ - Use Android keyStore for hardware backed keystore
+
+Key Authorization
+ - using biometric prompt
+
+
+FileEncryption, SharedPreference Encryption
+
+Advanced Encryption, Reference
+Tink -> library under the hoods for cryptographic encryption, decryption
+
+
