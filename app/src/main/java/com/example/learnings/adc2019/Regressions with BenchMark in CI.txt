@@ -1,2 +1,5 @@
 Ref: https://www.youtube.com/watch?v=ynBPcFs6OOk&list=PLWz5rJ2EKKc-OKKThYtOZGgsNQAofjFY-&index=8
 
+Tools that will help measuring performance
+Perfetto, Systrace
+Jetpack Benchmarking library
