@@ -1,0 +1,20 @@
+Ref: https://www.geeksforgeeks.org/flyweight-design-pattern/
+
+Intent:
+Use Sharing to support large number of fine-grained objects efficiently
+
+A flyweight is a shared object that can be used in multiple contexts simultaneously.
+Intrinsic state is stored in flyweight; information that is independent of the
+flyweight's context, there by making it sharable.
+
+Extrinsic state depends on and varies with the flyweight's context and therefore can't
+be shared.
+
+Apply the pattern only when 'all' of the following are true:
+- An application uses a large number of objects
+- Storage costs are high because of quantity of objects
+- Most object state must be made extrinsic
+- Many objects can be replaced by relatively few shared objects once extrinsic state is removed
+- The application doesn't depend on object identity. Since the flyweight objects may be shared,
+  identity tests will return true for conceptually distinct objects.
+
