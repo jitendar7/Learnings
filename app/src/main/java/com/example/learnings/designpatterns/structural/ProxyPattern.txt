@@ -1,0 +1,29 @@
+Ref: https://www.geeksforgeeks.org/proxy-design-pattern/
+
+Intent:
+Provide a surrogate or placeholder for another object to control access it
+
+Motivation:
+One reason for controlling access to an object is to defer the full cost of its creation
+and initialization until we actually need to use it.
+
+Example:
+Placeholder for image object in a document
+
+Credit card or cheque is a proxy for what is in our bank account.
+It is used in-place of cash, and provides a means of accessing that cash when required
+"Controls & manage access to the object they are protecting"
+
+Remote Proxy, Virtual Proxy, Protection proxy, Smart Proxy
+
+
+Internet, RealInternet
+
+It's interface may be a subset of subject's
+Decorator adds one or more responsibilities to an object, where as a
+proxy controls access to an object.
+
+Protection proxy might be implemented exactly like a decorator
+Remote proxy will not contain a direct reference to its real subject but only
+indirect reference, such as "host ID and local address on host"
+
