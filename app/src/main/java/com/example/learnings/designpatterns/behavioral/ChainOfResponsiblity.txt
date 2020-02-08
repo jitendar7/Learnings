@@ -21,4 +21,4 @@ Consequences:
 Reduced Coupling, Added flexibility in assigning responsibilities to objects
 
 
-This is applied in conjuction with Composite pattern
+This is applied in conjunction with Composite pattern
