@@ -1,0 +1,30 @@
+Behavioral patterns concerned with
+    - algorithms & assignment of responsibilities between objects
+
+
+Behavioral class patterns use 'inheritance' to distribute behavior between classes
+eg:
+Template Method (abstract definition of an algorithm) ,
+    Interpreter ( represents a grammer as a class hierarchy and implements an interpreter as an operation on
+                  instances of these classes )
+
+
+Behavioral object patterns use 'object composition'
+eg:
+Mediator pattern ( adds a mediator object between peers, providing loose coupling)
+     Chain of Responsiblity ( Sends requests to an object implicitly through chain of candidate objects
+                             , Any candidate may fulfill the request depending on run-time conditions )
+     Observer ( maintains a dependency between objects )
+
+
+Other patterns are concerned with encapsulating behavior in an object and delegating requests to it.
+eg:
+Strategy -> encapsulates an algorithm in an object
+            (makes it easy to specify and change the algorithm an object uses)
+Command -> encapsulates request in an object so that it can be passed as a parameter, stored on a
+            history list
+State -> encapsulates the states of an object so that the object can change its behavior when its state
+         object changes
+Visitor -> encapsulates behavior, that would otherwise be distributed across classes
+Iterator -> abstracts the way you access and traverse objects in an aggregate
+
