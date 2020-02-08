@@ -5,16 +5,16 @@ Behavioral patterns concerned with
 Behavioral class patterns use 'inheritance' to distribute behavior between classes
 eg:
 Template Method (abstract definition of an algorithm) ,
-    Interpreter ( represents a grammer as a class hierarchy and implements an interpreter as an operation on
+Interpreter ( represents a grammer as a class hierarchy and implements an interpreter as an operation on
                   instances of these classes )
 
 
 Behavioral object patterns use 'object composition'
 eg:
 Mediator pattern ( adds a mediator object between peers, providing loose coupling)
-     Chain of Responsiblity ( Sends requests to an object implicitly through chain of candidate objects
+Chain of Responsiblity ( Sends requests to an object implicitly through chain of candidate objects
                              , Any candidate may fulfill the request depending on run-time conditions )
-     Observer ( maintains a dependency between objects )
+Observer ( maintains a dependency between objects )
 
 
 Other patterns are concerned with encapsulating behavior in an object and delegating requests to it.
