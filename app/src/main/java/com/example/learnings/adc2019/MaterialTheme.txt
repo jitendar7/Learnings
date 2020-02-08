@@ -1,0 +1,35 @@
+Ref: https://www.youtube.com/watch?v=Owkf8DhAOSo&list=PLWz5rJ2EKKc_xXXubDti2eRnIKU0p7wHd&index=10
+
+Eg:
+https://github.com/material-components/material-components-android-examples
+https://github.com/material-components/material-components-android/tree/master/material-theme-builder
+
+Styles
+    Map with ViewAttributes to values (resources applicable )
+    Applied to single view
+
+Themes
+    Map with ThemeAttributes to values
+    Applied to a hierarchy
+
+?attr/colorPrimary => value for current theme
+
+
+If a Style is applied to a viewGroup, then only that viewgroup has the style
+If a Theme is applied to a viewGroup, then entire hierarchy of viewgroup has the theme
+
+ThemeOverlay
+    -> parent = ""
+    declare only things you want to change, like
+    "colorPrimary"
+    "colorSecondary"
+
+    "ThemeOverlay.MaterialComponents.Dark"
+
+ ContextCompat, choose wise context
+
+Naming convention for styles & themes
+Theme.AppName.Blue
+
+split xml's based on purpose
+
