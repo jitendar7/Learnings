@@ -1,0 +1,24 @@
+Ref: https://refactoring.guru/design-patterns/command
+
+Intent:
+Encapsulate request as an object, thereby letting you parameterize clients with different
+requests, queue or log requests and support undo operations
+
+eg: Transaction
+
+Participants:
+Command - interface for executing an operation
+ConcreteCommand (PasteCommand, OpenCommand)
+    - defines a binding object between receiver & an action
+
+Client - creates a ConcreteCommand & sets its receiver
+Invoker (MenuItem/Button/Shortcut)
+    - asks the command to carry out the request
+Receiver (Document Application)
+    - knows how to perform the operations associated with carrying out a request
+
+
+Memento can keep state the command requires to undo its effect
+A command that must be copied before placed on the history list acts as a Prototype
+A Composite can be used to implement Macro Commands
+
