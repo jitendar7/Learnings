@@ -1,0 +1,13 @@
+Ref: https://www.youtube.com/watch?v=v4kCRZ_O4Lc&list=PLWz5rJ2EKKc_xXXubDti2eRnIKU0p7wHd&index=41
+
+Memory profiler
+    - detect memory leaks
+    ( do not leak activity/fragment)
+
+    Native size, Shallow size, Retained size
+    Depth of 1, a strong signal
+
+
+CPU profiler
+    Call chart, Flame Chart, Top Down, Bottom up
+
