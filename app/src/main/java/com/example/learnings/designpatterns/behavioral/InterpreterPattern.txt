@@ -1,0 +1,24 @@
+Ref: https://www.geeksforgeeks.org/interpreter-design-pattern/
+
+Intent:
+Representation for its grammar along with an interpreter
+
+Participants:
+
+AbstractExpression
+    - declares an abstract Interpret operation that is common to all nodes in the
+      AST
+
+TerminalExpression
+    - terminal symbols in the grammar
+
+NonTerminalExpression
+    - non-terminal symbols in the grammer
+
+Context
+    - contains information global to interpreter
+
+Client
+    - builds AST with Terminal & NonTerminal expression
+    - invokes the Interpret operation
+
