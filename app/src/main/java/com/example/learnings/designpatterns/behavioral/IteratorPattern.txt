@@ -1,0 +1,24 @@
+Ref: https://refactoring.guru/design-patterns/iterator
+
+Intent:
+Provides a way to access the elements of an aggregate object sequentially without
+exposing its underlying representation
+
+
+eg: FacebookIterator, LinkedInIterator,...
+
+
+Participants:
+
+Iterator
+    - defines an interface for accessing and traversing elements
+ConcreteIterator
+    - implementation of interface
+
+Aggregate
+    - defines an interface for creating an Iterator object
+
+ConcreteAggregate
+    - implements the Iterator creation interface to return an instance of the proper
+      ConcreteIterator
+
