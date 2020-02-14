@@ -1,0 +1,58 @@
+Ref: https://proandroiddev.com/make-your-build-gradle-great-again-c84cc172a654
+
+use 'apply' to structure script content
+
+'apply' can be used to apply not only plugins, but also script files
+move extra tasks findbugs, jacoco reports to seperate files
+
+apply from: 'scripts/jacocoreport.gradle'
+apply from: 'scripts/findbugs.gradle'
+apply from: 'scripts/pmd.gradle'
+
+
+applicationId, package should be the same
+separate application Id for debug & release builds using
+    applicationIdSuffix ".debug"
+
+for build times, think of no-ops as per the requirement
+(or) use --profile command which shows the gradle task slowing down the build
+(or) Build Time Tracker plugin which checks the build time,
+
+release configuration:
+minifyEnabled true
+shrinkResources true
+proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+using app bundles which will release different apks based on the device installed
+
+
+Ref: https://www.reddit.com/r/androiddev/comments/3ig3gm/show_us_your_gradle_tasks/
+Use some gradle tasks for code coverage check & setting version number to the app icon.
+
+
+Externalize your dependencies versions if using submodules
+Get rid of 'mavenCentral' and use jcenter() as dependencies repository, jcenter has faster response time ,
+superset of mavenCentral content
+
+
+Gradle dependency management
+https://github.com/tamanneupane/DependencyManagement
+
+
+//configuring java 8 language features
+compileOptions{
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+
+//for kotlin projects
+kotlinOptions{
+    jvmTarget = "1.8"
+}
+
+Ref: https://www.youtube.com/watch?v=7ll-rkLCtyk&feature=youtu.be&t=22m20s
+MultiModule project ( settings.gradle )
+(with Abi code change)
+
+'implementation' project(':libX') => i'm consuming 'libX', but 'none of the users will have access' to its api
+'api' project(':libY') => i'm consuming 'libY', but all the users 'will have access' to its api
+i.e. old type 'compile', transitive dependency

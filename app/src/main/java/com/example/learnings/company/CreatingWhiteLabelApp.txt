@@ -1,0 +1,127 @@
+Ref: https://proandroiddev.com/advanced-android-flavors-part-1-building-white-label-apps-on-android-ade16af23bcf
+Ref: https://bulldogjob.com/articles/1063-how-we-managed-to-build-18-android-apps-from-a-single-project
+Ref: https://developer.android.com/studio/build/build-variants
+
+Goal:
+To share as much code as possible b/w app variations
+
+buildTypes:
+    debug, release
+
+these are a layer above our flavors, Each flavor will have a version for debug, release, and any other type
+defined
+
+productFlavors:
+    Flavor specific code in app/src/productFlavor/
+
+flavorDimensions "client", "server"
+
+eg:
+
+    productFlavors {
+        client1{
+            dimension "client"
+            applicationIdSuffix ".client1"
+        }
+        client2{
+            dimension "client"
+            applicationIdSiffix ".client2"
+        }
+
+
+        dev{
+            dimension "server"
+        }
+        staging{
+            dimension "server"
+        }
+        production{
+            dimension "server"
+        }
+    }
+
+Gradle creates every combination between these groups for us.
+
+Total 6 flavors to choose from <product-flavor><Build-Type>
+client1Dev
+client1Staging
+client1Production
+
+client2Dev
+client2Staging
+client2Production
+
+Flavor Specific code:
+app/
+    src/
+      main/
+       <part of all builds>
+      client1/
+       <included in client1Dev/client1Staging/client1Production>
+      client2/
+       <included in client2Dev/client2Staging/client2Production>
+      dev/
+       <included in client1Dev/client2Dev>
+      staging/
+       <included in client1Staging/client2Staging>
+      production/
+       <included in client1Production/client2Production>
+
+
+      client1Production/
+       <included only in client1Production>     // only included in client1Production
+
+
+Flavorful libraries
+
+libraries will also have flavors too,
+if the flavors uses library to perform actions, then the library should also have flavors defined in
+build.gradle
+
+From Gradle version 3.0.0 of its plugin, flavor dimensions are mandatory
+We don't need manual mapping, instead add
+dependencies {
+    implementation project(':common')
+}
+
+
+missingDimensionStrategy
+matchingFallbacks = ['dev']
+
+Adding flavor specific fields to the BuildConfig, using
+buildConfigField 'long', 'FLAVOR_LONG', '11500L'
+buildConfigField 'String', 'FLAVOR_STRING', '"Test String"'
+
+Adding VariantSpecific fields
+applicationVariants.all { variant ->
+
+
+}
+
+eg:
+applicationVariants.all { variant ->
+  def name = variant.getName()
+  // Default values
+  variant.buildConfigField 'boolean', 'ENABLE_ANALYTICS', 'false'
+  // Specific values
+  if (name.contains("Dev")) {
+    variant.buildConfigField 'String', 'SUBDOMAIN', '"dev"'
+  } else if (name.contains("Staging")) {
+    variant.buildConfigField 'String', 'SUBDOMAIN', '"staging-api"'
+  } else if (name.contains("Production")) {
+    variant.buildConfigField 'String', 'SUBDOMAIN', '"api"'
+    variant.buildConfigField 'boolean', 'ENABLE_ANALYTICS', 'true'
+  }
+}
+
+
+Filtering variants
+variantFilter
+{ variant ->
+    def names = variant.flavors*.name
+          // To check for a certain build type, use variant.buildType.name == "<buildType>"
+          if (names.contains("minApi21") && names.contains("demo")) {
+              // Gradle ignores any variants that satisfy the conditions above.
+              setIgnore(true)
+          }
+}

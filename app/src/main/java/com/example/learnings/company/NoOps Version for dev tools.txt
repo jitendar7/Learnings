@@ -1,0 +1,17 @@
+Ref: https://medium.com/@orhanobut/no-op-versions-for-dev-tools-b0a865934398#.t9x7gsfbr
+
+no-ops / Nops => computer protocol command that does nothing
+
+How to add the no-ops version of library/module
+i.e. avoid increase in method count & size in the release apk.
+
+Use the no-op version
+dependencies{
+    debugCompile '...:leakcanary-android:'1.4-beta2''
+    releaseCompile '...:leakcanary-android-no-op:1.4-beta2'
+}
+
+create a module for the library /
+add the variant source sets /
+use DebugApplication /
+Use variant source sets with DevUtils /
