@@ -1,0 +1,72 @@
+Ref: https://developer.android.com/training/dependency-injection/dagger-basics
+
+
+1. How to create a container/graph of dependencies
+
+// @Component, makes dagger create a graph of dependencies
+
+@Component
+interface ApplicationGraph{
+    // container provides the below objects
+    fun repository(): UserRepository
+
+}
+
+2. Let Dagger know, how to create instance of Class
+
+    @Inject
+
+    class UserRepository @Inject constructor(
+        private val localDataSource: UserLocalDataSource,
+        private val remoteDataSource: UserRemoteDataSource)
+        { .. }
+    )
+
+    even dependencies also need @Inject for creating 'UserRepository'
+
+    class UserLocalDataSource @Inject constructor() { .. }
+    class UserRemoteDataSource @Inject constructor() { .. }
+
+
+
+3. How to limit the lifetime of an object to the lifetime of its component.
+    i.e. same instance of a dependency is used every time that type needs to be provided
+
+    To have unique instance, use the same scope annotation for the @Component interface
+
+    i.e.
+
+    @Singleton      <-
+    @Component
+    interface ApplicationGraph{
+        fun repository(): UserRepository
+    }
+
+    @Singleton      <-
+    class UserRepository @Inject constructor(
+        private val localDataSource: UserLocalDataSource,
+        private val remoteDataSource: UserRemoteDataSource){ .. }
+
+
+  The same can be done by using a custom scope
+
+
+  How to write a custom scope
+
+    @Scope
+    @MustBeDocumented
+    @Retention(value = AnnotationRetention.RUNTIME)
+    annotation class MyCustomScope
+
+
+    i.e. use
+    @MyCustomScope
+
+
+//create an instance of the application graph
+val applicationGraph: ApplicationGraph = DaggerApplicationGraph.create()
+//get instance of UserRepository from the graph using
+val userRepository: UserRepository = applicationGraph.repository()
+
+
+
