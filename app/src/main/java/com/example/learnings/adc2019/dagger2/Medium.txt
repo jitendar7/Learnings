@@ -1,3 +1,275 @@
 Ref: https://developer.android.com/training/dependency-injection/dagger-android
 
 
+Best practices:
+    - use @Inject to add types to the Dagger graph whenever its possible
+    - use @Binds to tell Dagger which implementation should an interface have
+    - use @Provides to tell Dagger how to provide classes that your project doesn't own
+
+
+    - declare modules once ina component
+    - name the scope annotation based on the lifetime where the annotation is used
+
+
+Add dependencies:
+
+    apply plugin: 'kotlin-kapt'
+
+    dependencies{
+        implementation 'com.google.dagger:dagger:2.x'
+        kapt 'com.google.dagger:dagger-compiler:2.x'
+    }
+
+
+Dagger needs to know that Activity has to access the graph in order to provide the
+viewmodel it requires.
+
+@Component
+interface ApplicationComponent{
+    fun inject(activity: LoginActivity)     // requests injection & tells it needs to access the graph
+}
+
+
+When using activities, inject Dagger in the activity's onCreate() method before calling
+super.onCreate() to avoid issues with fragment restoration.
+
+When using fragments, inject Dagger in the fragment's onAttach() method. In this case, it can be
+done before or after calling super.onAttach()
+
+
+@Inject lateinit var loginViewModel: LoginViewModel
+
+override fun onCreate(savedInstanceState: Bundle?){
+    (applicationContext as MyApplication).appComponent.inject(this)
+    //Now LoginViewModel is available
+
+    super.onCreate(savedInstanceState)
+}
+
+
+@Inject tells Dagger how to create instance of LoginViewModel
+class LoginViewModel @Inject constructor(
+    private val userRepository: UserRepository){ .. }
+
+
+The information inside Dagger modules, is another way to tell the Dagger how to provide an instance
+of a class. eg: retrofit service
+
+You can use @Provides
+
+@Module
+class NetworkModule{
+
+    //Function parameters are the dependencies of this type
+    @Provides
+    fun provideLoginRetrofitService(): LoginRetrofitService {
+
+        //whenever Dagger needs to provide an instance of type LoginRetrofitService, this code is run
+        return Retrofit.Builder()
+                        .baseUrl("")
+                        .build()
+                        .create(LoginService::class.java)
+    }
+
+}
+
+For Dagger to know about this module, add in ApplicationComponent
+
+@Component(modules=[NetworkModule::class])
+interface ApplicationComponent{
+    ...
+}
+
+
+Scope Annotation:
+
+@Module
+class NetworkModule {
+    //way to scope types inside a Dagger module
+    @Singleton      <-
+    @Provides
+    fun provideLoginRetrofitService(): LoginRetrofitService{ .. }
+
+}
+
+// Modules that use a scope annotation can only be used in components that are annotated with the
+   same scope
+
+@Singleton      <-
+@Component(modules=[NetworkModule::class])
+interface ApplicationComponent{
+    fun inject(activity: LoginActivity)
+}
+
+@Singleton      <-
+class UserRepository @Inject constructor(
+    private val localDataSource: UserLocalDataSource,
+    private val remoteDataSource: UserRemoteDataSource){..}
+
+
+
+To scope LoginViewModel to the lifecycle of LoginActivity you need to create a new component ( sub graph )
+for the login flow and a new scope
+
+SubComponents are components that inherit and extend the object graph of a parent component
+Thus, all objects provided in parent component are provided in the subcomponent too.
+
+
+@SubComponent
+interface LoginComponent{
+
+    //for Application component to create instance of LoginComponent, define a factory
+    @SubComponent.Factory
+    interface Factory{
+        fun create(): LoginComponent
+    }
+
+
+    //This tells Dagger that LoginActivity requests injection from LoginComponent, so that
+    //this subcomponent graph needs to satisfy all the dependencies of the fields that LoginActivity is
+    //injecting
+
+    fun inject(loginActivity: LoginActivity)
+
+}
+
+
+To tell Dagger that LoginComponent is a subcomponent of ApplicationComponent, we have to do as below
+1. Create a new Dagger Module passing the subcomponent's class to the subcomponents attribute of annotation
+    @Module(subcomponents = LoginComponent::class)
+    class SubComponentsModule { }
+
+2. Add the module to ApplicationComponent
+    @Singleton
+    @Component(modules=[NetworkModule::class, SubComponentsModule::class])
+    interface ApplicationComponent{
+
+    }
+
+Consumers of ApplicationComponent need to know how to create instances of LoginComponent.
+expose the factory that creates instances of LoginComponent in the interface
+
+@Singleton
+@Component(modules=[NetworkModule::class, SubComponentsModule::class])
+interface ApplicationComponent {
+    fun loginComponent(): LoginComponent.Factory
+}
+
+
+Because LoginComponent is attached to the LoginActivity lifecyle, you have to keep a reference to
+the component in the activity in the same way you kept the reference to the 'applicationComponent'
+in the application class. That way fragments can access it.
+
+class LoginActivity: Activity() {
+    lateinit var loginComponent: LoginComponent
+    ...
+}
+
+No @Inject bcz you are not expecting that variable to be provided by Dagger
+
+class LoginActivity: Activity() {
+    //Reference to the login graph
+    lateinit var loginComponent: LoginComponent
+
+    //Fields that need to be injected by the login graph
+    @Inject lateinit var loginViewModel: LoginViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?){
+
+        //Creating of the login graph using the application graph
+        loginComponent = (applicationContext as MyDaggerApplication)
+                            .appComponent.loginComponent().create()
+
+
+        // Make Dagger instantiate @Inject fields in LoginActivity
+        loginComponent.inject(this)
+
+        super.onCreate(savedInstanceState)
+
+    }
+}
+
+LoginComponent is created in the activity's onCreate() method , it will get implicitly destroyed
+when the activity gets destroyed
+
+
+LoginComponent must provide the same instance of LoginViewModel each time its requested.
+ - A subcomponent cannot use a scope annotation used by one of its parent components
+ - When a component/subcomponent is marked with scope annotation, it can only provide types with that
+    annotation or types that have no annotation
+ - When a type is marked with a scope annotation, it can only be used by the components that are
+   annotated with the same scope
+
+
+//Defining a custom scope
+@Scope
+@Retention(value = AnnotationRetention.RUNTIME)
+annotation class ActivityScope
+
+//Classes annotated with @ActivityScope are scoped to the graph and the same instance of that type
+// is provided everytime the type is requested
+@ActivityScope
+@SubComponent
+interface LoginComponent { .. }
+
+//A unique instance of LoginViewModel is provided in Components annotated with @ActivityScope
+
+@ActivityScope
+class LoginViewModel @Inject constructor(
+        private val userRepository: UserRepository) { ... }
+
+
+
+If we have two fragments that need LoginViewModel, both of them are provided with the same instance
+eg: you have LoginUsernameFragment, LoginPasswordFragment they need to get injected by the LoginComponent
+
+@ActivityScope
+@SubComponent
+interface LoginComponent {
+
+    @SubComponent.Factory
+    interface Factory{
+        fun create(): LoginComponent
+    }
+
+    //All LoginActivity, LoginUsernameFragment, and LoginPasswordFragment request injection
+    // from LoginComponent. The graph needs to satisfy all the dependencies of the fields
+    // those classes are injecting
+
+    fun inject(loginActivity: LoginActivity)
+    fun inject(usernameFragment: LoginUserFragment) <-
+    fun inject(passwordFragment: LoginPasswordFragment) <-
+
+}
+
+The components can access the instance of the component that lives in the LoginActivity object
+example,
+
+class LoginUserFragment: Fragment() {
+
+    //Fields that need to be injected by the login graph
+    @Inject lateinit var loginViewModel: LoginViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)     <-
+
+        //obtaining the login graph from LoginActivity and instantiate the @Inject fields with
+        objects from the graph
+
+        (activity as LoginActivity).loginComponent.inject(this) <-
+
+    }
+}
+
+You can include Modules inside other modules,
+Once a module has been added to either a component or another module, its already in the Dagger graph
+Dagger can provide those objects in that component.
+
+@Component(modules = [Module1::class, Module2::class, ModuleX::class])
+interface ApplicationComponent { ... }
+
+@Module
+class Module1 { ... }
+
+@Module
+class Module2 { ... }
