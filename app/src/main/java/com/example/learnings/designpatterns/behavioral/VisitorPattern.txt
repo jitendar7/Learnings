@@ -1,0 +1,34 @@
+Ref: https://refactoring.guru/design-patterns/visitor
+https://www.geeksforgeeks.org/visitor-design-pattern/
+https://refactoring.guru/design-patterns/visitor-double-dispatch
+
+Intent:
+Lets you to separate operational logic from objects on which they operate to another class.
+Performing an operation on a group of similar kinds of objects.
+
+
+Participants:
+
+Visitor
+- declares visit operation for each of concrete element in the object structure
+
+Concrete Visitor
+- implement each operation declared by visitor,
+  each operation implements a fragment of the algorithm defined for the corresponding class of object
+  in the structure.
+
+Element
+- defines an 'accept' operation that takes a visitor as an argument
+
+ConcreteElement
+- implement an accept operation that takes a visitor as an argument
+
+
+ObjectStructure
+- can enumerate its elements
+- may provide a high-level interface to allow the visitor to visit its elements
+- may either be composite or a collection such as list or a set
+
+
+
+
