@@ -1,0 +1,3 @@
+./adb logcat -g => current buffer size
+./adb logcat -G 1M => update current buffer size
+./adb logcat -b main -G 16M target the buffer you want to change
