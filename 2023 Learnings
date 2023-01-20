@@ -1,0 +1,9 @@
+fun NavController.safeNavigate(@IdRes actionId: Int) {
+    currentDestination?.getAction(actionId)?.run { navigate(direction) }
+}
+
+// Then use the extension function on the button click
+binding.navigateButton.setOnClickListener {   
+        findNavController()
+            .safeNavigate(R.id.action_firstFragment_to_secondFragment)
+}
