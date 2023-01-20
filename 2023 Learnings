@@ -7,3 +7,7 @@ binding.navigateButton.setOnClickListener {
         findNavController()
             .safeNavigate(R.id.action_firstFragment_to_secondFragment)
 }
+
+
+Android Learning Roadmap
+https://github.com/skydoves/android-developer-roadmap
